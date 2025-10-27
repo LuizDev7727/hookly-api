@@ -4,6 +4,7 @@ import cors from '@fastify/cors'
 import scalar from '@scalar/fastify-api-reference'
 import { fastifySwagger } from '@fastify/swagger'
 import { env } from './env'
+import { listWebhooksRoute } from './infra/http/routes/list-webhooks.route'
 
 const server = fastify().withTypeProvider<ZodTypeProvider>()
 
@@ -27,13 +28,16 @@ if(env.NODE_ENV === 'development') {
   })
 
   server.register(scalar, {
-    routePrefix: '/docs'
+    routePrefix: '/api/docs'
   })
 }
 
 server.setValidatorCompiler(validatorCompiler)
 server.setSerializerCompiler(serializerCompiler)
 
+server.register(listWebhooksRoute)
+
 server.listen({ port: env.PORT }).then(() => {
-  console.log('HTTP server running!')
+  console.log(`💻 HTTP server running on http://localhost:${env.PORT}`)
+  console.log(`📝 Docs available at http://localhost:${env.PORT}/api/docs`)
 })
