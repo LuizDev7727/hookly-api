@@ -1,0 +1,17 @@
+services:
+
+  database:
+    image: bitnami/postgresql:latest
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRES_USER=hookly
+      - POSTGRES_PASSWORD=hookly
+      - POSTGRES_DB=hookly
+
+  jaeger:
+    image: jaegertracing/jaeger:2.8.0
+    ports:
+      - "16686:16686" # UI
+      - "14268:14268" # Traces HTTP
+      - "4318:4318" # OTLP/HTTP
