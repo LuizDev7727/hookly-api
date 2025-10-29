@@ -5,6 +5,9 @@ import scalar from '@scalar/fastify-api-reference'
 import { fastifySwagger } from '@fastify/swagger'
 import { env } from './env'
 import { listWebhooksRoute } from './infra/http/routes/list-webhooks.route'
+import { getWebhookRoute } from './infra/http/routes/get-webhook.route'
+import { deleteWebhookRoute } from './infra/http/routes/delete-webhook.route'
+import { captureWebhookRoute } from './infra/http/routes/capture-webook.route'
 
 const server = fastify().withTypeProvider<ZodTypeProvider>()
 
@@ -36,6 +39,9 @@ server.setValidatorCompiler(validatorCompiler)
 server.setSerializerCompiler(serializerCompiler)
 
 server.register(listWebhooksRoute)
+server.register(getWebhookRoute)
+server.register(deleteWebhookRoute)
+server.register(captureWebhookRoute)
 
 server.listen({ port: env.PORT }).then(() => {
   console.log(`💻 HTTP server running on http://localhost:${env.PORT}`)
